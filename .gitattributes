@@ -1,2 +1,40 @@
-# Auto detect text files and perform LF normalization
 * text=auto
+
+# Unity YAML files
+*.cs text diff=csharp
+*.shader text
+*.cginc text
+*.compute text
+*.unity text
+*.prefab text
+*.asset text
+*.mat text
+*.anim text
+*.meta text
+*.controller text
+*.overrideController text
+*.physicMaterial text
+*.physicsMaterial2D text
+*.playable text
+*.mask text
+*.brush text
+*.fontsettings text
+*.uxml text
+*.uss text
+*.asmdef text
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.tga binary
+*.psd binary
+*.fbx binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
+*.mp4 binary
+*.mov binary
+*.zip binary
+*.rar binary
