@@ -30,10 +30,15 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
-        // Attack 
+        // Attack Input
         if (Input.GetMouseButtonDown(0))
         {
             Attack();
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            TakeDamage();
         }
 
         if (anim != null)
@@ -54,17 +59,18 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        anim.SetTrigger("Jump"); 
+        if (anim != null) anim.SetTrigger("Jump"); 
     }
 
     private void Attack()
     {
-        anim.SetTrigger("Attack"); 
+        if (anim != null) anim.SetTrigger("Attack"); 
     }
 
     public void TakeDamage()
     {
-        anim.SetTrigger("Hurt");
+        // This only plays the animation for now. 
+        if (anim != null) anim.SetTrigger("Hurt");
     }
 
     private void FlipLogic()
