@@ -10,17 +10,11 @@
 
 ### Day 1 - System 1: Time Hop System
 - **01:30 AM - 02:15 AM: Project Initialization**
-    - Set up folder structure and modular architecture.
-    - Integrated **Cinemachine** for camera management.
-- **02:15 AM - 02:43 AM: System 1 Implementation & Player States**
-    - Developed `TimeManager` with a 3-period cycle (Morning, Afternoon, Evening) based on the **State Pattern**.
-        - **Assumption:** Each day starts at 06:00 (Morning) for a consistent game loop.
-        - **Explanations:** The system calculates the `DayOfWeek` dynamically based on total days to support infinite progression. 
-    - Built a  **Animator Controller** for the player, handling transitions for Walk, Jump, Fall, Attack, and Damage states.
-    - Integrated **Time Hop Triggers** using colliders to allow easy manual testing of time progression as per PDF requirements.
-
----
-
-## Technical Explanation 
-- **Observer Pattern:** Used `GameEvents` to decoupled the Time System from the UI/Visuals.
-- **State Pattern:** Applied to the Time Manager to ensure the Morning -> Afternoon -> Evening cycle is followed strictly.
+    - Planning  
+    - Set up folder structure and modular architecture using the Observer Pattern.
+    - Integrated Cinemachine for smooth camera management and frame tracking.
+- **02:15 AM - 03:00 AM: Time System & Player Animation**
+    - Developed `TimeManager` with a 3-period cycle (Morning, Afternoon, Evening) using the State Pattern. Each day starts at 06:00 (Morning) to ensure a consistent game loop.
+    - The system calculates the `DayOfWeek` dynamically, allowing for infinite day progression (Day 100+ support).
+    - Integrated Time Hop Triggers (Colliders) to satisfy the requirement for manual testing of time progression.
+    - Finalized the Player Animator Controller, handling transitions for Walk, Jump, Fall, Attack, and Hurt states.
