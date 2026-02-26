@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Lumber
   itemType: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300078, guid: 142ff8784e552734f9d6a895491d0ae8, type: 3}
   prefabToSpawn: {fileID: 0}
   maxStackSize: 10
   description: 

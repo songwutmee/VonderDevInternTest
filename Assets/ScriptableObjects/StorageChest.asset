@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0460248449ce43a45b544772b46eca90, type: 3}
   m_Name: StorageChest
   m_EditorClassIdentifier: 
-  itemName: Potion
+  itemName: Storage Chest
   itemType: 1
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 9c2c25cdab33c434e959d382d3b79d94, type: 3}
   prefabToSpawn: {fileID: 0}
   maxStackSize: 10
   description: 

@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe42215e9954b3a4a8c485034f953fe6, type: 3}
   m_Name: Recipe_StorageChest
   m_EditorClassIdentifier: 
-  resultItem: {fileID: 0}
-  ingredients: []
+  resultItem: {fileID: 11400000, guid: 19c79a7d15eaa2244a6ab990b40185a2, type: 2}
+  ingredients:
+  - item: {fileID: 11400000, guid: 5491599bf3fa7b14d84937ac20a2ece8, type: 2}
+    amount: 10
   requiresStation: 0
