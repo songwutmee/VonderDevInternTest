@@ -2444,7 +2444,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryRoot: {fileID: 1509340401}
   inventoryWindow: {fileID: 265599624}
-  craftingPanel: {fileID: 690620657}
+  internalCrafting: {fileID: 1155276728}
+  stationCrafting: {fileID: 690620657}
   chestPanel: {fileID: 215636268}
   hotbarParent: {fileID: 1276952720}
   bagParent: {fileID: 265599625}
@@ -11021,7 +11022,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afcdc5ff5eaa83948b8483e0f488d7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stationUIPanel: {fileID: 690620657}
 --- !u!61 &1274314618
 BoxCollider2D:
   m_ObjectHideFlags: 0
