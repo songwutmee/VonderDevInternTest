@@ -6,36 +6,50 @@ using TMPro;
 
 public class CraftingRecipeUI : MonoBehaviour
 {
-    public RecipeData recipe;
-    public Image resultIcon;
-    public TextMeshProUGUI recipeNameText;
+    public Image icon;
+    public TextMeshProUGUI nameText;
     public Button craftButton;
+    
+    private RecipeData currentRecipe;
+
+    private void Awake()
+    {
+        if (craftButton != null)
+        {
+            craftButton.onClick.AddListener(OnCraftButtonClicked);
+        }
+    }
 
     public void Setup(RecipeData data)
     {
-        recipe = data;
-        resultIcon.sprite = data.resultItem.icon;
-        recipeNameText.text = data.resultItem.itemName;
-        
-        RefreshState();
+        currentRecipe = data;
+        if (icon != null) icon.sprite = data.resultItem.icon;
+        if (nameText != null) nameText.text = data.resultItem.itemName;
+        Refresh();
     }
 
-    public void RefreshState()
+    public void Refresh()
     {
-        // Highlight if materials are sufficient
-        bool canCraft = InventoryManager.Instance.HasIngredients(recipe.ingredients);
-        
-        // If near station
-        if (recipe.requiresStation && !CraftingManager.Instance.isNearStation) canCraft = false;
+        if (currentRecipe == null) return;
 
-        craftButton.interactable = canCraft;
+        bool hasMaterials = InventoryManager.Instance.HasIngredients(currentRecipe.ingredients);
+        bool stationMet = !currentRecipe.requiresStation || CraftingManager.Instance.isNearStation;
+
+        bool canCraft = hasMaterials && stationMet;
         
-        // Change color if materials are ready
-        craftButton.image.color = canCraft ? Color.white : new Color(1, 1, 1, 0.5f);
+        if (craftButton != null)
+        {
+            craftButton.interactable = canCraft;
+            //Dim colkor if can't craft
+            craftButton.image.color = canCraft ? Color.white : new Color(1, 1, 1, 0.5f);
+        }
     }
 
-    public void OnCraftButtonClicked()
+    private void OnCraftButtonClicked()
     {
-        CraftingManager.Instance.CraftItem(recipe);
+        if (currentRecipe != null && CraftingManager.Instance != null)
+        {
+            CraftingManager.Instance.Craft(currentRecipe);
+        }
     }
 }

@@ -21,15 +21,16 @@ public class InventorySlot
     }
 }
 
+
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance { get; private set; }
 
-    [Header("Inventory Sizes")]
+    [Header("Configuration")]
     public int hotbarSize = 6;
-    public int mainInventorySize = 18;
-    
-    // List of all slots (Hotbar starts at index 0 to 5)
+    public int mainInventorySize = 12;
+
+    [HideInInspector] 
     public List<InventorySlot> slots = new List<InventorySlot>();
 
     private void Awake()
@@ -37,17 +38,15 @@ public class InventoryManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
-        // Fill inventory with empty slots on start
+        slots.Clear();
         for (int i = 0; i < hotbarSize + mainInventorySize; i++)
         {
             slots.Add(new InventorySlot());
         }
     }
 
-    // Automatically add item to the first available stack or empty slot
     public bool AddItem(ItemData item, int amount = 1)
     {
-        // Search for existing stack first (if stackable)
         if (item.maxStackSize > 1)
         {
             foreach (var slot in slots)
@@ -61,7 +60,6 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        // Search for first empty slot
         foreach (var slot in slots)
         {
             if (slot.item == null)
@@ -75,17 +73,16 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
 
-    // Check if player has specific amounts of multiple items (for crafting)
     public bool HasIngredients(List<Ingredient> ingredients)
     {
         foreach (var req in ingredients)
         {
-            int currentTotal = 0;
+            int total = 0;
             foreach (var slot in slots)
             {
-                if (slot.item == req.item) currentTotal += slot.count;
+                if (slot.item == req.item) total += slot.count;
             }
-            if (currentTotal < req.amount) return false;
+            if (total < req.amount) return false;
         }
         return true;
     }
@@ -99,7 +96,6 @@ public class InventoryManager : MonoBehaviour
                 int toRemove = Mathf.Min(amount, slots[i].count);
                 slots[i].count -= toRemove;
                 amount -= toRemove;
-                
                 if (slots[i].count <= 0) slots[i].Clear();
                 if (amount <= 0) break;
             }

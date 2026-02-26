@@ -5,46 +5,66 @@ using UnityEngine;
 public class CraftingUI : MonoBehaviour
 {
     public GameObject recipePrefab;
-    public Transform recipeContainer;
+    public Transform container;
     
-    private List<CraftingRecipeUI> spawnedRecipes = new List<CraftingRecipeUI>();
+    [Header("Filter Settings")]
+    [Tooltip("If true, shows all recipes. If false, only shows instant recipes.")]
+    public bool isStationMenu = false; 
+
+    private List<CraftingRecipeUI> spawnedUIs = new List<CraftingRecipeUI>();
 
     private void OnEnable()
     {
-        GameEvents.OnInventoryUpdated += RefreshList;
+        GameEvents.OnInventoryUpdated += RefreshUI;
+        BuildRecipeList(); 
     }
 
     private void OnDisable()
     {
-        GameEvents.OnInventoryUpdated -= RefreshList;
+        GameEvents.OnInventoryUpdated -= RefreshUI;
     }
 
-    private void Start()
+    private void BuildRecipeList()
     {
-        InitializeList();
-    }
+        // Clear old list items
+        foreach (Transform child in container) Destroy(child.gameObject);
+        spawnedUIs.Clear();
 
-    private void InitializeList()
-    {
-        // Clear old ones
-        foreach (Transform child in recipeContainer) Destroy(child.gameObject);
-        spawnedRecipes.Clear();
+        if (CraftingManager.Instance == null || CraftingManager.Instance.recipes == null) return;
 
-        // Create UI for each recipe
-        foreach (RecipeData recipe in CraftingManager.Instance.allRecipes)
+        foreach (var recipe in CraftingManager.Instance.recipes)
         {
-            GameObject obj = Instantiate(recipePrefab, recipeContainer);
-            CraftingRecipeUI ui = obj.GetComponent<CraftingRecipeUI>();
-            ui.Setup(recipe);
-            spawnedRecipes.Add(ui);
+            bool shouldShow = false;
+
+            // If this is Station UI show everything
+            // If this is Pocket UI show only recipes that dont need  station
+            if (isStationMenu) 
+            {
+                shouldShow = true; 
+            }
+            else if (!recipe.requiresStation) 
+            {
+                shouldShow = true;
+            }
+
+            if (shouldShow)
+            {
+                GameObject go = Instantiate(recipePrefab, container);
+                CraftingRecipeUI ui = go.GetComponent<CraftingRecipeUI>();
+                if (ui != null)
+                {
+                    ui.Setup(recipe);
+                    spawnedUIs.Add(ui);
+                }
+            }
         }
     }
 
-    private void RefreshList()
+    public void RefreshUI()
     {
-        foreach (var recipeUI in spawnedRecipes)
+        foreach (var ui in spawnedUIs)
         {
-            recipeUI.RefreshState();
+            if (ui != null) ui.Refresh();
         }
     }
 }

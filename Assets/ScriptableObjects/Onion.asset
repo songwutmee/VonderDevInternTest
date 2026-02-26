@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0460248449ce43a45b544772b46eca90, type: 3}
-  m_Name: StorageChest
+  m_Name: Onion
   m_EditorClassIdentifier: 
-  itemName: Storage Chest
-  itemType: 3
-  icon: {fileID: 21300000, guid: 9c2c25cdab33c434e959d382d3b79d94, type: 3}
+  itemName: Dragon Fruit
+  itemType: 1
+  icon: {fileID: 21300000, guid: 8fdcf9a56ea7d8a4fb2f76292efe48bf, type: 3}
   prefabToSpawn: {fileID: 0}
   maxStackSize: 10
   description: 
