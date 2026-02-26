@@ -3,73 +3,92 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class InventoryUI : MonoBehaviour
 {
-    public GameObject inventoryPanel; 
-    public RectTransform selectionHighlight; 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            public int selectedSlotIndex = 0;
+    [Header("UI Panels")]
+    public GameObject inventoryPanel;
+    public Transform hotbarParent;
+    public Transform mainInventoryParent;
 
-    private void Update()
+    [Header("Selection")]
+    public RectTransform selectionHighlight;
+    public float lerpSpeed = 15f;
+    
+    private int selectedSlotIndex = 0;
+    private List<InventorySlotUI> allSlots = new List<InventorySlotUI>();
+
+    private void Start()
     {
-        // Toggle inventory with E key
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            bool isActive = !inventoryPanel.activeSelf;
-            inventoryPanel.SetActive(isActive);
-        }
+        // Hotbar Slots (0-5)
+        SetupSlotsFromParent(hotbarParent);
+        // Bag Slots (6-17)
+        SetupSlotsFromParent(mainInventoryParent);
 
-        HandleSelection();
+        GameEvents.OnInventoryUpdated += RefreshAllSlots;
+        inventoryPanel.SetActive(false);
+    }
 
-        // Right click to use item
-        if (Input.GetMouseButtonDown(1)) 
+    private void SetupSlotsFromParent(Transform parent)
+    {
+        foreach (Transform child in parent)
         {
-            UseItemAtSelectedSlot();
+            InventorySlotUI slotUI = child.GetComponent<InventorySlotUI>();
+            if (slotUI != null)
+            {
+                slotUI.slotIndex = allSlots.Count;
+                allSlots.Add(slotUI);
+            }
         }
     }
 
-    private void HandleSelection()
+    private void Update()
     {
-        // Keyboard 1-6 selection
-        for (int i = 0; i < 6; i++)
+        // Toggle Inventory Window
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
-            {
-                selectedSlotIndex = i;
-                UpdateSelectionVisual();
-            }
+            inventoryPanel.SetActive(!inventoryPanel.activeSelf);
         }
 
-        // Mouse scroll selection
+        HandleHotbarInput();
+        MoveSelectionHighlight();
+    }
+
+    private void HandleHotbarInput()
+    {
+        // Numbers 1-6
+        for (int i = 0; i < 6; i++)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i)) selectedSlotIndex = i;
+        }
+
+        // Scroll wheel
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0)
         {
             selectedSlotIndex -= (int)Mathf.Sign(scroll);
-            // Loop index between 0 and 5
             if (selectedSlotIndex < 0) selectedSlotIndex = 5;
             if (selectedSlotIndex > 5) selectedSlotIndex = 0;
-            UpdateSelectionVisual();
         }
     }
 
-    private void UpdateSelectionVisual()
+    private void MoveSelectionHighlight()
     {
-        
+        if (allSlots.Count > 0 && selectedSlotIndex < 6)
+        {
+            // Move red box to current hotbar slot
+            Vector3 targetPos = allSlots[selectedSlotIndex].transform.position;
+            selectionHighlight.position = Vector3.Lerp(selectionHighlight.position, targetPos, Time.deltaTime * lerpSpeed);
+        }
     }
 
-    private void UseItemAtSelectedSlot()
+    public void RefreshAllSlots()
     {
-        InventorySlot slot = InventoryManager.Instance.slots[selectedSlotIndex];
-        if (slot.item == null) return;
-
-        switch (slot.item.itemType)
+        for (int i = 0; i < allSlots.Count; i++)
         {
-            case ItemType.Usable:
-                Debug.Log("Consumed: " + slot.item.itemName);
-                InventoryManager.Instance.RemoveItem(slot.item, 1);
-                break;
-            case ItemType.Equippable:
-                Debug.Log("Equipped: " + slot.item.itemName);
-                break;
+            // Sync UI with data from InventoryManager
+            var dataSlot = InventoryManager.Instance.slots[i];
+            allSlots[i].UpdateSlot(dataSlot.item, dataSlot.count);
         }
     }
 }
