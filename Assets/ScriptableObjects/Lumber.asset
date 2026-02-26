@@ -15,6 +15,6 @@ MonoBehaviour:
   itemName: Lumber
   itemType: 0
   icon: {fileID: 21300078, guid: 142ff8784e552734f9d6a895491d0ae8, type: 3}
-  prefabToSpawn: {fileID: 0}
+  worldPrefab: {fileID: 7456079119626145417, guid: 92e9722d9d4f0de48b3ee68b05719286, type: 3}
   maxStackSize: 10
   description: 

@@ -10,8 +10,10 @@ public class ItemData : ScriptableObject
     public string itemName;
     public ItemType itemType;
     public Sprite icon;
-    public GameObject prefabToSpawn; // For placeable items
-    public int maxStackSize = 10;    // Stack items up to this amount
+    
+    public GameObject worldPrefab; 
+    
+    public int maxStackSize = 10;
     
     [TextArea] public string description;
 }

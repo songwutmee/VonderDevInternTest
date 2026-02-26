@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0460248449ce43a45b544772b46eca90, type: 3}
   m_Name: Onion
   m_EditorClassIdentifier: 
-  itemName: Dragon Fruit
+  itemName: Onion
   itemType: 1
   icon: {fileID: 21300000, guid: 8fdcf9a56ea7d8a4fb2f76292efe48bf, type: 3}
-  prefabToSpawn: {fileID: 0}
+  worldPrefab: {fileID: 4529772462599727419, guid: 2ab5b20ffead9974d81ba819a27ebc57, type: 3}
   maxStackSize: 10
   description: 

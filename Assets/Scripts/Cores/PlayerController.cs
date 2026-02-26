@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movement Settings")]
+    public static PlayerController Instance { get; private set; }
+
+    [Header("Movement")]
     public float moveSpeed = 6f;
     public float jumpForce = 11f;
 
@@ -16,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null) Instance = this;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
@@ -23,32 +26,18 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
-
-        // Jump 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            Jump();
-        }
-
-        // Attack Input
-        if (Input.GetMouseButtonDown(0))
-        {
-            Attack();
-        }
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            TakeDamage();
-        }
-
-        if (anim != null)
-        {
-            anim.SetFloat("Speed", Mathf.Abs(horizontal));
-            anim.SetBool("IsGrounded", isGrounded);
-            anim.SetFloat("AirSpeedY", rb.velocity.y);
-        }
-
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded) Jump();
+        
+        UpdateAnimations();
         FlipLogic();
+    }
+
+    private void UpdateAnimations()
+    {
+        if (anim == null) return;
+        anim.SetFloat("Speed", Mathf.Abs(horizontal));
+        anim.SetBool("IsGrounded", isGrounded);
+        anim.SetFloat("AirSpeedY", rb.velocity.y);
     }
 
     private void FixedUpdate()
@@ -59,18 +48,7 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        if (anim != null) anim.SetTrigger("Jump"); 
-    }
-
-    private void Attack()
-    {
-        if (anim != null) anim.SetTrigger("Attack"); 
-    }
-
-    public void TakeDamage()
-    {
-        // This only plays the animation for now. 
-        if (anim != null) anim.SetTrigger("Hurt");
+        if (anim != null) anim.SetTrigger("Jump");
     }
 
     private void FlipLogic()

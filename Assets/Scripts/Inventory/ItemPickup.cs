@@ -9,15 +9,15 @@ public class ItemPickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // When player walks over the item
         if (other.CompareTag("Player"))
         {
-            bool success = InventoryManager.Instance.AddItem(itemToGive, amount);
-            if (success)
+            // Only destroy if the inventory actually has room to take it
+            bool wasAdded = InventoryManager.Instance.AddItem(itemToGive, amount);
+            
+            if (wasAdded)
             {
-                // Item picked up successfully
-                Debug.Log("Picked up: " + itemToGive.itemName);
-                Destroy(gameObject); 
+                Debug.Log("Collected: " + itemToGive.itemName);
+                Destroy(gameObject);
             }
         }
     }

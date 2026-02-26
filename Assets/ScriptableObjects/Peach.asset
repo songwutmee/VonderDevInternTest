@@ -15,6 +15,6 @@ MonoBehaviour:
   itemName: Peach
   itemType: 1
   icon: {fileID: 21300000, guid: ddc2c0b558e42934a8bd79519fe86a29, type: 3}
-  prefabToSpawn: {fileID: 0}
+  worldPrefab: {fileID: 7532065890100705400, guid: 19ef46cfb3f65344787cc106e25b9efd, type: 3}
   maxStackSize: 10
   description: 

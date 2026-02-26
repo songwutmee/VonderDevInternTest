@@ -15,6 +15,6 @@ MonoBehaviour:
   itemName: Storage Chest
   itemType: 3
   icon: {fileID: 21300000, guid: 9c2c25cdab33c434e959d382d3b79d94, type: 3}
-  prefabToSpawn: {fileID: 0}
+  worldPrefab: {fileID: 2131222370325412093, guid: abef689c212ec6845bcf05b1e73026dd, type: 3}
   maxStackSize: 10
   description: 
