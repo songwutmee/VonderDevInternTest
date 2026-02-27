@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0460248449ce43a45b544772b46eca90, type: 3}
   m_Name: EquipItem
   m_EditorClassIdentifier: 
-  itemName: 
-  itemType: 0
-  icon: {fileID: 0}
+  itemName: EquipItem
+  itemType: 2
+  icon: {fileID: 21300000, guid: 8201bc85b4ce96745b431622ca8e7eb2, type: 3}
   worldPrefab: {fileID: 0}
-  maxStackSize: 10
+  maxStackSize: 1
   description: 
