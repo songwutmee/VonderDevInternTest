@@ -27,7 +27,7 @@ public class SkyManager : MonoBehaviour
 
     private void UpdateSkyColor(TimePeriod period, int day, DayOfWeek dayOfWeek)
     {
-        // Simple color switch based on state
+        // Switch based on state
         if (period == TimePeriod.Morning) skyRenderer.color = morningColor;
         else if (period == TimePeriod.Afternoon) skyRenderer.color = afternoonColor;
         else if (period == TimePeriod.Evening) skyRenderer.color = eveningColor;

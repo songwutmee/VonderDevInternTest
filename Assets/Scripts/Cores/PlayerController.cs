@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -35,42 +36,50 @@ public class PlayerController : MonoBehaviour
 
         horizontal = Input.GetAxisRaw("Horizontal");
 
-        // Movement & Jump
+        // Jump 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded) Jump();
         
-        // Shoots towards mouse position
-        if (Input.GetMouseButtonDown(0)) HandleAttack();
+        // Attack logic 
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (CanAttack()) HandleAttack();
+        }
 
         UpdateAnimator();
         HandleFlipping();
     }
 
-    private void HandleAttack()
-{
-    if (PlayerStatus.Instance != null && PlayerStatus.Instance.UseAP(apCostPerShot))
+    private bool CanAttack()
     {
-        anim.SetTrigger("Attack");
+        // Check if mouse is hovering over any UI element
+        if (EventSystem.current.IsPointerOverGameObject()) return false;
 
-        // Use the distance between camera and world plane (usually -10 to 0)
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = -Camera.main.transform.position.z; 
-        
-        Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(mousePos);
-        worldMousePos.z = 0; // Flatten to 2D plane
+        // Check if any large menu window is open
+        if (InventoryUI.Instance != null && InventoryUI.Instance.IsAnyMenuOpen) return false;
 
-        // Calculate direction from shooting point to mouse
-        Vector3 shootDir = (worldMousePos - shootPoint.position).normalized;
+        return true;
+    }
 
-        // Instantiate and initialize the projectile
-        GameObject proj = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
-        Projectile projectileComponent = proj.GetComponent<Projectile>();
-        
-        if (projectileComponent != null)
+    private void HandleAttack()
+    {
+        if (PlayerStatus.Instance != null && PlayerStatus.Instance.UseAP(apCostPerShot))
         {
-            projectileComponent.Setup(shootDir);
+            anim.SetTrigger("Attack");
+
+            // Projectile spawning
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = -Camera.main.transform.position.z; 
+            Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(mousePos);
+            worldMousePos.z = 0;
+
+            Vector3 shootDir = (worldMousePos - shootPoint.position).normalized;
+            GameObject proj = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
+            proj.GetComponent<Projectile>()?.Setup(shootDir);
+
+            // Subtle recoil 
+            rb.AddForce(-shootDir * 1.5f, ForceMode2D.Impulse);
         }
     }
-}
 
     private void HandleFlipping()
     {
