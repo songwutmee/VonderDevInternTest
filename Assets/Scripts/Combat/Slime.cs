@@ -115,7 +115,6 @@ public class Slime : MonoBehaviour, IDamageable
 
         health -= amount;
         GetComponent<SpriteFlash>()?.Flash();
-        anim.SetTrigger("Hurt");
 
         if (health <= 0) StartCoroutine(DeathSequence());
     }
