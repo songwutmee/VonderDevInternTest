@@ -5,8 +5,17 @@
 
 **Start Time:** Feb 26, 2026, 01:00 AM
 
+<div align="center">
 
-[![VonderTest Preview](https://img.youtube.com/vi/hEofhouhvgQ/maxresdefault.jpg)](https://youtu.be/hEofhouhvgQ?si=4ks5ROmfkOvZ6IkM) 
+<a href="https://youtu.be/hEofhouhvgQ?si=4ks5ROmfkOvZ6IkM">
+  <img src="https://img.youtube.com/vi/hEofhouhvgQ/maxresdefault.jpg" width="100%" alt="VonderTest Gameplay">
+</a>
+
+<a href="https://youtu.be/hEofhouhvgQ?si=4ks5ROmfkOvZ6IkM">
+  <img src="https://img.shields.io/badge/▶%20CLICK%20TO%20WATCH%20DEMO-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
+</a>
+
+</div>
 
 ---
 
@@ -78,8 +87,8 @@
 ---
 
 ### Design Decisions
-I focused on making the code **Modular** and **Scalable** so it’s easy to add more features later:
-- **Observer Pattern:** I used a static `GameEvents` class to handle communication. For example, when time changes, the `TimeManager` just sends a message, and other systems (like UI or Player Status) listen and update themselves. This keeps scripts independent.
+I focused on making the code **Modular** and **Scalable** so it's easy to add more features later:
+- **Observer Pattern:** I used a static `GameEvents` class to handle communication. For example, when time changes, the `TimeManager` just sends a message, and other systems (like UI or Player Status) automatically respond. No direct coupling.
 - **Data Driven Design:** Used **ScriptableObjects** for Items and Recipes. If I want to add 10 new items, I just create new assets in the editor without changing any code.
 - **Interface** Used an `IDamageable` interface for the combat system. This allows the Wand to damage anything (Player, Slime, or even objects) as long as they have the interface.
 - **Singleton Pattern:** Used for core managers like `InventoryManager` and `PlayerStatus` for easy global access while keeping logic organized.
